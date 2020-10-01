@@ -62,7 +62,8 @@ const MenuController = {
         });
         menu.save((err, data) => {
         if (err) return apiResponse.ErrorResponse(res, err);
-
+        console.log("success");
+        
         return apiResponse.successResponseWithData(
           res,
           "Project added succesfully.",
