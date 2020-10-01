@@ -1,6 +1,6 @@
 const apiResponse = require("../helpers/apiResponse");
 const s3 = require("../helpers/s3Uploader");
-const Members = require("../models/members");
+// const Members = require("../models/members");
 
 const IndexController = {
     index: (req, res) => {

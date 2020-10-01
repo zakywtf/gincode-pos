@@ -7,7 +7,7 @@ const helmet = require("helmet");
 const cors = require("cors");
 const cron = require("node-cron");
 const chalk = require("chalk");
-const deadlineCheck = require("./middlewares/deadlineCheck");
+// const deadlineCheck = require("./middlewares/deadlineCheck");
 require("dotenv").config();
 
 
@@ -75,9 +75,9 @@ app.use("/", routes);
 //CRON Job 
 //0 0 0 * * * -> every midnight
 //* * * * *   -> every minute
-cron.schedule("0 0 0 * * *", async function() {
-    await deadlineCheck();
-});
+// cron.schedule("0 0 0 * * *", async function() {
+//     await deadlineCheck();
+// });
 
 // throw 404 if URL not found
 app.all("*", function(req, res) {

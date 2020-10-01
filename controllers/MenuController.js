@@ -1,5 +1,5 @@
 const Menu = require("../models/menu");
-const Projects = require("../models/projects");
+// const Projects = require("../models/projects");
 const apiResponse = require("../helpers/apiResponse");
 const { validationResult, check } = require("express-validator");
 const { generate } = require("../middlewares/randGen");

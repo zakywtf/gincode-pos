@@ -9,11 +9,5 @@ const router = express.Router();
 
 //router.get('/',auth,adminCheck, MembersControllSer.all);
 router.get("/", MenuController.all);
-router.post(
-  "/",
-//   auth,
-  imageUpload,
-//   validation.validate("createTransaction"),
-  MenuController.addMenus
-);
+router.post("/", imageUpload, auth, MenuController.addMenus);
 module.exports = router;

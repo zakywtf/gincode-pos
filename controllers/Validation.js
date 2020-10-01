@@ -1,29 +1,25 @@
 const { check } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
-const Members = require("../models/members");
-const Projects = require("../models/projects");
+const Admin = require("../models/admin");
+// const Projects = require("../models/projects");
 const Transactions = require("../models/transactions");
-const transactions = require("../models/transactions");
+// const transactions = require("../models/transactions");
 
 exports.validate = method => {
   switch (method) {
     case "register": {
       return [
-        check("name")
-          .isLength({ min: 3 })
-          .trim()
-          .withMessage("Name cannot be empty"),
-        check("idMember")
-          .isInt()
-          .withMessage("Member ID must be number only ")
-          .isLength({ min: 12, max: 12 })
-          .withMessage("Member ID length must be 12")
+        check("username")
+          // .isInt()
+          // .withMessage("Member ID must be number only ")
+          // .isLength({ min: 12, max: 12 })
+          // .withMessage("Member ID length must be 12")
           .custom(value => {
-            return Members.findOne({ idMember: value, isDelete: false }).then(
+            return Admin.findOne({ username: value, isDelete: false }).then(
               user => {
                 if (user) {
                   return Promise.reject(
-                    "A User Already registerd with this id number of " + value
+                    "A User Already registerd with this username of " + value
                   );
                 }
               }
@@ -37,19 +33,15 @@ exports.validate = method => {
 
     case "login": {
       return [
-        check("idMember")
+        check("username")
           .not()
           .isEmpty()
-          .withMessage("Please enter Member ID")
-          .isInt()
-          .withMessage("Member ID must be numeric")
-          .isLength({ min: 12, max: 12 })
-          .withMessage("Member ID length must be 12")
+          .withMessage("Please enter Username")
           .custom(value => {
-            return Members.findOne({ idMember: value, isDelete: false }).then(
+            return Admin.findOne({ username: value, isDelete: false }).then(
               async user => {
                 if (!user) {
-                  return Promise.reject("Member ID not found");
+                  return Promise.reject("Username not found");
                 }
               }
             );
@@ -57,8 +49,8 @@ exports.validate = method => {
         check("password")
           .not()
           .isEmpty()
-          .isLength({ min: 6 })
-          .withMessage("Min password length is 6")
+          .isLength({ min: 8 })
+          .withMessage("Min password length is 8")
       ];
     }
 
@@ -68,7 +60,7 @@ exports.validate = method => {
           .isMongoId()
           .withMessage("Invalid MongoID")
           .custom(value => {
-            return Members.findOne({ _id: value, isDelete: false }).then(
+            return Admin.findOne({ _id: value, isDelete: false }).then(
               async user => {
                 if (!user) {
                   return Promise.reject(
@@ -133,7 +125,7 @@ exports.validate = method => {
           .isMongoId()
           .withMessage("Invalid MongoID")
           .custom(value => {
-            return Members.findOne({ _id: value, isDelete: false }).then(
+            return Admin.findOne({ _id: value, isDelete: false }).then(
               async user => {
                 if (!user) {
                   return Promise.reject(
@@ -177,7 +169,7 @@ exports.validate = method => {
           .isMongoId()
           .withMessage("Invalid MongoID")
           .custom(value => {
-            return Members.findOne({ _id: value, isDelete: false }).then(
+            return Admin.findOne({ _id: value, isDelete: false }).then(
               async user => {
                 if (!user) {
                   return Promise.reject(
@@ -202,7 +194,7 @@ exports.validate = method => {
           .isMongoId()
           .withMessage("Invalid MongoID")
           .custom(value => {
-            return Members.findOne({ _id: value, isDelete: false }).then(
+            return Admin.findOne({ _id: value, isDelete: false }).then(
               async user => {
                 if (!user) {
                   return Promise.reject(
@@ -245,7 +237,7 @@ exports.validate = method => {
           .isEmpty()
           .withMessage("Member Object ID is required")
           .custom(value => {
-            return Members.findOne({ _id: value }).then(user => {
+            return Admin.findOne({ _id: value }).then(user => {
               if (!user) {
                 return Promise.reject("Member not found");
               }

@@ -1,4 +1,4 @@
-const Members = require("../models/members");
+const Admin = require("../models/admin");
 const { check, validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
 const apiResponse = require("../helpers/apiResponse");
@@ -20,22 +20,22 @@ const AuthController = {
     }
 
     try {
-      const { name, idMember, password } = req.body;
+      const { username, name, password } = req.body;
 
       let passwordHash = await bcrypt.hash(password,10);
 
-      let member = new Members({
+      let admin = new Admin({
+        username,
         name,
-        idMember,
         password: passwordHash
       });
 
-      member.save((err, user) => {
+      admin.save((err, user) => {
         if (err) return apiResponse.ErrorResponse(res, err);
 
         let userData = {
+          username: user.username,
           name: user.name,
-          email: user.idMember,
           password: password
         };
 
@@ -49,6 +49,7 @@ const AuthController = {
       return apiResponse.ErrorResponseWithData(res, "Server Error", error);
     }
   },
+  
   login: async (req, res, next) => {
     const errors = validationResult(req);
 
@@ -61,40 +62,42 @@ const AuthController = {
     }
 
     try {
-      let member = await Members.findOne({
-        idMember: req.body.idMember,
+      const { username, password } = req.body;
+
+      let admin = await Admin.findOne({
+        username: username,
         isDelete: false
       });
 
-      if (!member)
-        return apiResponse.unauthorizedResponse(res, "Member ID not found");
+      if (!admin)
+        return apiResponse.unauthorizedResponse(res, "Admin ID not found");
 
-      const isMatch = await bcrypt.compare(req.body.password, member.password);
+      const isMatch = await bcrypt.compare(password, admin.password);
 
       if (!isMatch)
         return apiResponse.unauthorizedResponse(res, "Incorrect password");
 
-      let memberData = {
-        _id: member._id,
-        name: member.name,
-        idMember: member.idMember,
-        isAdmin: member.isAdmin
+      let adminData = {
+        _id: admin._id,
+        username: admin.username,
+        name: admin.name,
+        isAdmin: admin.isAdmin
       };
 
       //Prepare JWT token for authentication
       const secret = process.env.JWT_SECRET;
-      const jwtPayload = memberData;
+      const jwtPayload = adminData;
       const jwtData = {
         expiresIn: process.env.JWT_TIMEOUT_DURATION
       };
 
       //Generated JWT token with Payload and secret.
-      memberData.token = jwt.sign(jwtPayload, secret, jwtData);
+      adminData.token = jwt.sign(jwtPayload, secret, jwtData);
 
       return apiResponse.successResponseWithData(
         res,
         "Login Success.",
-        memberData
+        adminData
       );
     } catch (error) {
       return apiResponse.ErrorResponseWithData(res, "Server Error", error);

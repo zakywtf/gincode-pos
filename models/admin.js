@@ -3,20 +3,12 @@ const Schema = mongoose.Schema;
 const timestamp = require('./plugins/timestamps');
 
 let MemberSchema = new Schema({
-    password: {
-        type: String,
-    },
-    name: {
-        type: String,
-        required: true,
-    },
-    idMember: {
-        type: String,
-        required: true,
-    },
+    username: String,
+    password: String,
+    name: String,
     isAdmin: {
         type: Boolean,
-        default: false,
+        default: true,
     },
     isDelete: {
         type: Boolean,
@@ -26,4 +18,4 @@ let MemberSchema = new Schema({
 
 MemberSchema.plugin(timestamp);
 
-module.exports = mongoose.model("members", MemberSchema);
+module.exports = mongoose.model("admin", MemberSchema);

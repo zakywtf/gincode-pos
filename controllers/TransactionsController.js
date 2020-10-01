@@ -1,5 +1,5 @@
 const Transactions = require("../models/transactions");
-const Projects = require("../models/projects");
+// const Projects = require("../models/projects");
 const apiResponse = require("../helpers/apiResponse");
 const { validationResult, check } = require("express-validator");
 const { generate } = require("../middlewares/randGen");
