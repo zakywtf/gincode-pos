@@ -16,8 +16,22 @@ router.post("/",
     MenuController.addMenus
     );
 router.get(
-    "/:menu_id",auth,
+    "/:menu_id",
+    auth,
     validation.validate("menu_id"),
     MenuController.getSpecificMenu
+  );
+router.put(
+    "/update/:menu_id",
+    auth,
+    validation.validate("menu_id"),
+    MenuController.updateMenu
+);
+router.delete(
+    "/delete/:menu_id",
+    auth,
+    adminCheck,
+    validation.validate("menu_id"),
+    MenuController.deleteMenu
   );
 module.exports = router;

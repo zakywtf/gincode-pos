@@ -9,6 +9,10 @@ let MenuSchema = new Schema({
     tags:[String],
     desc:String,
     pict:String,
+    isDelete: {
+        type: Boolean,
+        default: false,
+    }
 });
 
 MenuSchema.plugin(timestamp);

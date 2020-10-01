@@ -112,7 +112,81 @@ const MenuController = {
     } catch (error) {
       return next(error);
     }
+  },
+
+  updateMenu: async (req, res, next) => {
+    const errors = await validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return apiResponse.validationErrorWithData(
+        res,
+        "Validation Error.",
+        errors.array()
+      );
+    }
+
+    if (req.files) {
+      const uploadedImage = req.files;
+
+      if (req.files.pict)
+        req.body.pict = uploadedImage.pict[0]["location"];
+    }
+
+    try {
+      Menu.findOneAndUpdate(
+        { _id: req.params.menu_id },
+        req.body,
+        { new: true },
+        (err, menuData) => {
+          if (err) return apiResponse.ErrorResponse(res, err);
+          return apiResponse.successResponseWithData(
+            res,
+            "Menu updated succesfully.",
+            menuData
+          );
+        }
+      );
+    } catch (error) {
+      return next(error);
+    }
+  },
+
+  deleteMenu: async (req, res, next) => {
+    const errors = await validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return apiResponse.validationErrorWithData(
+        res,
+        "Validation Error.",
+        errors.array()
+      );
+    }
+
+    try {
+      Menu.findOneAndUpdate(
+        { _id: req.params.menu_id },
+        {
+          $set: {
+            isDelete: true
+          }
+        },
+        err => {
+          if (err)
+            return apiResponse.ErrorResponse(
+              res,
+              "Menu ID not found / Menu has been deleted"
+            );
+          return apiResponse.successResponse(
+            res,
+            "Menu deleted successfully"
+          );
+        }
+      );
+    } catch (error) {
+      return next(error);
+    }
   }
+
 };
 
 module.exports = MenuController;
