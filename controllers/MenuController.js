@@ -14,17 +14,19 @@ const MenuController = {
         .exec((err, data) => {
           if (err) return apiResponse.ErrorResponse(res, err.message);
 
-          if (!data.length)
+          if (!data.length){
             return apiResponse.dataNotFoundResponse(
               res,
               "No Menu found"
             );
-
-          return apiResponse.successResponseWithData(
-            res,
-            "Data retrieved",
-            data
-          );
+          }else{
+            return apiResponse.successResponseWithData(
+              res,
+              "Data retrieved",
+              data
+            );
+          }
+          
         });
     } catch (error) {
       return next(error);
