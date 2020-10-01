@@ -8,7 +8,7 @@ const validation = require("../../controllers/Validation");
 const router = express.Router();
 
 //router.get('/',auth,adminCheck, MembersControllSer.all);
-router.get("/",auth, MenuController.all);
+router.get("/", MenuController.all);
 router.post(
   "/",
 //   auth,
