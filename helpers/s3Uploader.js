@@ -51,8 +51,13 @@ const uploadS3 = multer({
     {
         name: 'proof_of_payment',
         maxCount: 1
-    },{
+    },
+    {
         name: 'banner_project',
+        maxCount: 1
+    },
+    {
+        name: 'pict',
         maxCount: 1
     }
 ]);
