@@ -66,7 +66,7 @@ const MenuController = {
         
         return apiResponse.successResponseWithData(
           res,
-          "Project added succesfully.",
+          "Menu added succesfully.",
           data
         );
       });
