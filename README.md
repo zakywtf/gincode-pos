@@ -12,6 +12,6 @@ gunakan base url yang sudah di deploy ke heroku ->  https://gincodepos.herokuapp
 
 1. POST MENU
     post data ke url https://gincodepos.herokuapp.com/api/menu , dengan menggunakan form-data sebagai berikut : <br/>
-    ![alt text](https://github.com/zakywtf/gincode-pos/blob/master/documentation/form-data-post-menu.png?raw=true)<br/><br/>
+    ![alt text](https://github.com/zakywtf/gincode-pos/blob/master/doc/form-data-post-menu.png?raw=true)<br/><br/>
     dan hasil returnnya sebagai berikut : <br/>
-    ![alt text](https://github.com/zakywtf/gincode-pos/blob/master/documentation/return-post-menu.png?raw=true)<br/><br/>
+    ![alt text](https://github.com/zakywtf/gincode-pos/blob/master/doc/return-post-menu.png?raw=true)<br/><br/>
