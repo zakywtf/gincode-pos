@@ -11,6 +11,10 @@ module.exports = function timestamp(schema) {
         updated_at: {
             type: Date,
             default: dateZone
+        },
+        deleted_at: {
+            type: Date,
+            default: dateZone
         }
     })
 
