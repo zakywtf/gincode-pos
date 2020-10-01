@@ -8,10 +8,4 @@ Ide Nyata Indonesia BE repo
     a. npm start <br/>
     b. npm run dev <br/>
 
-gunakan base url yang sudah di deploy ke heroku ->  https://gincodepos.herokuapp.com
-
-1. POST MENU<br/>
-    post data ke url https://gincodepos.herokuapp.com/api/menu , dengan menggunakan form-data sebagai berikut : <br/>
-    ![alt text](https://github.com/zakywtf/gincode-pos/blob/master/doc/form-data-post-menu.png?raw=true)<br/><br/>
-    dan hasil returnnya sebagai berikut : <br/>
-    ![alt text](https://github.com/zakywtf/gincode-pos/blob/master/doc/return-post-menu.png?raw=true)<br/><br/>
+gunakan collection berikut untuk test ->  https://www.getpostman.com/collections/272b907d8f2bbd8bdaf6
