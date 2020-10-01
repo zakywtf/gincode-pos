@@ -9,5 +9,15 @@ const router = express.Router();
 
 //router.get('/',auth,adminCheck, MembersControllSer.all);
 router.get("/", MenuController.all);
-router.post("/", imageUpload, auth, MenuController.addMenus);
+router.post("/", 
+    imageUpload, 
+    auth, 
+    validation.validate("createMenu"),
+    MenuController.addMenus
+    );
+router.get(
+    "/:menu_id",auth,
+    validation.validate("menu_id"),
+    MenuController.getSpecificMenu
+  );
 module.exports = router;

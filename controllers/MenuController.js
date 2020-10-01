@@ -32,6 +32,43 @@ const MenuController = {
       return next(error);
     }
   },
+
+  getSpecificMenu: async (req, res, next) => {
+    try {
+      const {menu_id}=req.params
+      const errors = await validationResult(req);
+
+      if (!errors.isEmpty()) {
+        return apiResponse.validationErrorWithData(
+          res,
+          "Validation Error.",
+          errors.array()
+        );
+      }
+
+      Menu.find({ _id: menu_id })
+        .populate("member", "_id name")
+        .populate("project", "_id project_name target_goal pic")
+        .exec((err, data) => {
+          if (err) return apiResponse.ErrorResponse(res, err);
+
+          if (!data.length)
+            return apiResponse.dataNotFoundResponse(
+              res,
+              "Menu not found"
+            );
+
+          return apiResponse.successResponseWithData(
+            res,
+            "Data retrieved",
+            data
+          );
+        });
+    } catch (error) {
+      return next(error);
+    }
+  },
+
   addMenus: async (req, res, next) => {
     const errors = await validationResult(req);
 

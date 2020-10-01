@@ -1,6 +1,7 @@
 const { check } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
 const Admin = require("../models/admin");
+const Menu = require("../models/menu")
 // const Projects = require("../models/projects");
 const Transactions = require("../models/transactions");
 // const transactions = require("../models/transactions");
@@ -84,6 +85,25 @@ exports.validate = method => {
                 if (!transaction) {
                   return Promise.reject(
                     "Transaction ID not found / Transaction has been deleted"
+                  );
+                }
+              }
+            );
+          })
+      ];
+    }
+
+    case "menu_id": {
+      return [
+        check("menu_id")
+          .isMongoId()
+          .withMessage("Invalid MongoID")
+          .custom(value => {
+            return Menu.findOne({ _id: value }).then(
+              async menu => {
+                if (!menu) {
+                  return Promise.reject(
+                    "Menu ID not found / Menu has been deleted"
                   );
                 }
               }
@@ -180,6 +200,23 @@ exports.validate = method => {
             );
           })
       ];
+    }
+
+    case "createMenu":{
+      return [
+        check("title")
+          .custom(value => {
+            return Menu.findOne({ title: value, isDelete: false }).then(
+              user => {
+                if (user) {
+                  return Promise.reject(
+                    "A menu already exists with this name " + value
+                  );
+                }
+              }
+            );
+          }),
+      ]
     }
 
     case "createTransaction": {
