@@ -11,6 +11,9 @@
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www"
   },
+  "engines": {
+    "node": "10.x"
+  },
   "dependencies": {
     "async": "^3.2.0",
     "aws-sdk": "^2.720.0",
