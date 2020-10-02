@@ -2,6 +2,7 @@ const express = require("express");
 const MenuController = require("../../controllers/MenuController");
 const auth = require("../../middlewares/jwt");
 const imageUpload = require("../../helpers/s3Uploader");
+const imageDelete = require("../../helpers/s3Delete");
 const adminCheck = require("../../middlewares/adminCheck");
 const validation = require("../../controllers/Validation");
 
@@ -32,6 +33,7 @@ router.delete(
     auth,
     adminCheck,
     validation.validate("menu_id"),
+    // imageDelete,
     MenuController.deleteMenu
   );
 module.exports = router;

@@ -6,11 +6,14 @@ const { generate } = require("../middlewares/randGen");
 const randomPassword = require("generate-password");
 const bcrypt = require("bcrypt");
 const { default: async } = require("async");
+const moment = require('moment-timezone');
+const now = moment.tz(Date.now(), "Asia/Jakarta");
+const imageDelete = require("../helpers/s3Delete");
 
 const MenuController = {
   all: (req, res, next) => {
     try {
-      Menu.find()
+      Menu.find({isDelete:false})
         .exec((err, data) => {
           if (err) return apiResponse.ErrorResponse(res, err.message);
 
@@ -133,9 +136,12 @@ const MenuController = {
     }
 
     try {
+      // console.log({body:req.body});
+      const obj = req.body
+      obj.updated_at = now
       Menu.findOneAndUpdate(
         { _id: req.params.menu_id },
-        req.body,
+        obj,
         { new: true },
         (err, menuData) => {
           if (err) return apiResponse.ErrorResponse(res, err);
@@ -167,10 +173,16 @@ const MenuController = {
         { _id: req.params.menu_id },
         {
           $set: {
-            isDelete: true
+            isDelete: true,
+            deleted_at:now
           }
         },
-        err => {
+        (err, menuData) => {
+          // console.log(menuData);
+          const {pict}=menuData
+          const key=pict.split('amazonaws.com/')
+          console.log({key:key[1]});
+          imageDelete(key[1])
           if (err)
             return apiResponse.ErrorResponse(
               res,
